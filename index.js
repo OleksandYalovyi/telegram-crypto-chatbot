@@ -58,4 +58,7 @@
 //     };
 // };
 
-console.log(1)
+exports.handler = async (event) => {
+    console.log(1)
+};
+
