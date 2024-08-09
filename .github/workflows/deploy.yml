@@ -18,9 +18,6 @@ jobs:
       with:
         node-version: '19'
 
-    - name: Install dependencies
-      run: npm ci
-
     - name: Configurate AWS Credentials
       uses: aws-actions/configure-aws-credentials@010d0da01d0b5a38af31e9c3470dbfdabdecca3a # v4.0.1
       with:
@@ -28,10 +25,10 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: 'us-east-1'
 
+    - name: Install dependencies
+      run: npm ci
+
     - name: Package and deploy to AWS Lambda
-      env:
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       run: |
         zip -r function.zip .
         aws lambda update-function-code \
