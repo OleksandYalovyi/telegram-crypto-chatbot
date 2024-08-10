@@ -42,7 +42,7 @@ export const handler = async (event) => {
     // console.log('success response', response);
 
     
-    const res = axios.get('https://rest.coinapi.io/v1/exchangerate/USD/PLN?apikey=044008B4-27A0-437E-8F26-842F42A4CFE9')
+    const res = await axios.get('https://rest.coinapi.io/v1/exchangerate/USD/PLN?apikey=044008B4-27A0-437E-8F26-842F42A4CFE9')
     console.log('res', res)
     await sendMsgToBot(`Coin api PLN rate = ${res.rate}`, process.env.CHAT_ID)
 
