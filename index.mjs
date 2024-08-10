@@ -5,7 +5,7 @@ const CHATID = '390588081'
 const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzcRUaKySaeYh_SGYb3pnL4dhRrHTzq-hnOaAd_lRR8TKwwFtf7sLv8EmP-Fjot465uKQ/exec'; // Замініть на URL вашого Google Apps Script веб-додатку
 const LAMBDA_WEBHOOK_URL = 'https://zaii5o5q6f.execute-api.us-east-1.amazonaws.com/webhook'
 
-exports.handler = async (event) => {111
+export const handler = async (event) => {
     const requestBody = JSON.parse(event.body);
 
     const requestMsg = requestBody.message;
