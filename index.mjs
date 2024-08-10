@@ -41,7 +41,10 @@ export const handler = async (event) => {
 
     // console.log('success response', response);
 
-    await sendMsgToBot("I will send it every 12 hours", process.env.CHAT_ID)
+    
+    const res = axios.get('https://rest.coinapi.io/v1/exchangerate/USD/PLN?apikey=044008B4-27A0-437E-8F26-842F42A4CFE9')
+    console.log('res', res)
+    await sendMsgToBot(`Coin api PLN rate = ${res.rate}`, process.env.CHAT_ID)
 
 
     return {
