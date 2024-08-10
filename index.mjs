@@ -1,9 +1,15 @@
 import https from 'https';
+import axios from 'axios';
 
 const TELEGRAM_TOKEN = '7410600441:AAEVi-ZprdaukcRdHp0nx6vYI9aa_fMBwic'
 const CHATID = '390588081'
 const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzcRUaKySaeYh_SGYb3pnL4dhRrHTzq-hnOaAd_lRR8TKwwFtf7sLv8EmP-Fjot465uKQ/exec'; // Замініть на URL вашого Google Apps Script веб-додатку
 const LAMBDA_WEBHOOK_URL = 'https://zaii5o5q6f.execute-api.us-east-1.amazonaws.com/webhook'
+
+const sendMsgToBot = async (msg, chatId) =>{
+    const sendText = `https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage?chat_id=${chatId}&parse_mode=HTML&text=${encodeURIComponent(msg)}`;
+    return await axios.get(sendText);
+}
 
 export const handler = async (event) => {
     const requestBody = JSON.parse(event.body);
@@ -25,33 +31,21 @@ export const handler = async (event) => {
     } else if (command === 'help') {
         message = "Here are the available commands: /start, /help, /send_stats";
     } else if (command === 'send_stats') {
-        message = "Try to send analytics to your email";
+        try{
+            await sendMsgToBot("Try to send analytics to your email", chatId)
+            await axios.post(GOOGLE_SCRIPT_URL);
+            message = "Check your email";
+        } catch(e) {
+            console.error('error', e);
+            await sendMsgToBot("Something went wrong", chatId)
+        }
     } else {
         message = "I'm sorry, I didn't understand that command. Please try again.";
     }
 
-    // Формуємо URL для запиту до Telegram API
-    const sendText = `https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage?chat_id=${chatId}&parse_mode=HTML&text=${encodeURIComponent(message)}`;
+    const response = await sendMsgToBot(message, chatId)
 
-
-    const response = await new Promise((resolve, reject) => {
-        https.get(sendText, (res) => {
-            let data = '';
-
-            res.on('data', (chunk) => {
-                data += chunk;
-            });
-
-            res.on('end', () => {
-                resolve(data);
-            });
-        }).on('error', (e) => {
-            reject(e);
-        });
-    });
-
-    console.log(sendText);
-    console.log(response);
+    console.log('success response', response);
 
     return {
         statusCode: 200,
