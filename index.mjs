@@ -1,11 +1,11 @@
-const https = require('https');
+import https from 'https';
 
 const TELEGRAM_TOKEN = '7410600441:AAEVi-ZprdaukcRdHp0nx6vYI9aa_fMBwic'
 const CHATID = '390588081'
 const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzcRUaKySaeYh_SGYb3pnL4dhRrHTzq-hnOaAd_lRR8TKwwFtf7sLv8EmP-Fjot465uKQ/exec'; // Замініть на URL вашого Google Apps Script веб-додатку
 const LAMBDA_WEBHOOK_URL = 'https://zaii5o5q6f.execute-api.us-east-1.amazonaws.com/webhook'
 
-exports.handler = async (event) => {
+exports.handler = async (event) => {111
     const requestBody = JSON.parse(event.body);
 
     const requestMsg = requestBody.message;
@@ -20,13 +20,14 @@ exports.handler = async (event) => {
 
     let message;
 
-    // Визначаємо відповідь залежно від команди
     if (command === 'start') {
-        message = "Welcome to my bot! How can I help you today?"; // Відповідь на команду /start
+        message = "Welcome to my bot! How can I help you today?";
     } else if (command === 'help') {
-        message = "Here are the available commands: /start, /help"; // Відповідь на команду /help
+        message = "Here are the available commands: /start, /help, /send_stats";
+    } else if (command === 'send_stats') {
+        message = "Try to send analytics to your email";
     } else {
-        message = "I'm sorry, I didn't understand that command. Please try again."; // Відповідь на невідому команду
+        message = "I'm sorry, I didn't understand that command. Please try again.";
     }
 
     // Формуємо URL для запиту до Telegram API
@@ -57,11 +58,4 @@ exports.handler = async (event) => {
         body: JSON.stringify('Hello from Lambda!')
     };
 };
-
-// exports.handler = async (event) => {
-//     return {
-//         statusCode: 200,
-//         body: JSON.stringify('Hello from Lambda!')
-//     };
-// };
 
