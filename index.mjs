@@ -6,52 +6,40 @@ const sendMsgToBot = async (msg, chatId) =>{
 }
 
 export const handler = async (event) => {
-    // const requestBody = JSON.parse(event.body);
+    const requestBody = JSON.parse(event.body);
 
-    // const requestMsg = requestBody.message;
+    const requestMsg = requestBody.message;
 
-    // const chatId = requestMsg.chat.id;
+    const chatId = requestMsg.chat.id;
 
-    // let command = requestMsg.text.trim();
+    let command = requestMsg.text.trim();
 
-    // if (command.startsWith('/')) {
-    //     command = command.substring(1);
-    // }
-
-    // let message;
-
-    // if (command === 'start') {
-    //     message = "Welcome to my bot! How can I help you today?";
-    // } else if (command === 'help') {
-    //     message = "Here are the available commands: /start, /help, /send_stats";
-    // } else if (command === 'send_stats') {
-    //     try{
-    //         await sendMsgToBot("Try to send analytics to your email", chatId)
-    //         await axios.post(process.env.GOOGLE_SCRIPT_URL);
-    //         message = "Check your email";
-    //     } catch(e) {
-    //         console.error('error', e);
-    //         await sendMsgToBot("Something went wrong", chatId)
-    //     }
-    // } else {
-    //     message = "I'm sorry, I didn't understand that command. Please try again.";
-    // }
-
-    // const response = await sendMsgToBot(message, chatId)
-
-    // console.log('success response', response);
-
-    
-    const res = await axios.get('https://rest.coinapi.io/v1/exchangerate/USD/PLN?apikey=044008B4-27A0-437E-8F26-842F42A4CFE9')
-
-    const rate = Number(res.data.rate)
-    console.log('res', res)
-    console.log('rate', rate)
-
-    if (rate > 3.97) {
-        await sendMsgToBot(`Coin api PLN rate = ${rate}!!! It's time to sell!`, process.env.CHAT_ID)
+    if (command.startsWith('/')) {
+        command = command.substring(1);
     }
 
+    let message;
+
+    if (command === 'start') {
+        message = "Welcome to my bot! How can I help you today?";
+    } else if (command === 'help') {
+        message = "Here are the available commands: /start, /help, /send_stats";
+    } else if (command === 'send_stats') {
+        try{
+            await sendMsgToBot("Try to send analytics to your email", chatId)
+            await axios.post(process.env.GOOGLE_SCRIPT_URL);
+            message = "Check your email";
+        } catch(e) {
+            console.error('error', e);
+            await sendMsgToBot("Something went wrong", chatId)
+        }
+    } else {
+        message = "I'm sorry, I didn't understand that command. Please try again.";
+    }
+
+    const response = await sendMsgToBot(message, chatId)
+
+    console.log('success response', response);
 
     return {
         statusCode: 200,
