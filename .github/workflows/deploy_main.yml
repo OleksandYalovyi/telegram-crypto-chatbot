@@ -32,5 +32,5 @@ jobs:
       run: |
         zip -r function.zip .
         aws lambda update-function-code \
-          --function-name chatbot_without_gateway \
+          --function-name Send-analytics-email \
           --zip-file fileb://function.zip \
