@@ -20,15 +20,17 @@ export const handler = async () => {
   console.log("aqi", aqiRes.data.aqi);
   console.log("idx", aqiRes.data.idx);
 
-  await sendMsgToBot(
-    `Air quality index by aqicn ${aqiRes.data.aqi}`,
-    process.env.CHAT_ID
-  );
+  if (aqiRes.data.aqi > 50) {
+    await sendMsgToBot(
+      `Air quality index by aqicn ${aqiRes.data.aqi}`,
+      process.env.CHAT_ID
+    );
 
-  await sendMsgToBot(
-    `Rest data: pm25 ${aqiRes.data.iaqi.pm25.v}, pm10 ${aqiRes.data.iaqi.pm10.v}, forecast daily pm25 ${aqiRes.data.forecast.daily.pm25[0].avg}`,
-    process.env.CHAT_ID
-  );
+    await sendMsgToBot(
+      `Rest data: pm25 ${aqiRes.data.iaqi.pm25.v}, pm10 ${aqiRes.data.iaqi.pm10.v}, forecast daily pm25 ${aqiRes.data.forecast.daily.pm25[0].avg}`,
+      process.env.CHAT_ID
+    );
+  }
 
   return {
     statusCode: 200,
