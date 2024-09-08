@@ -26,7 +26,7 @@ export const handler = async () => {
   );
 
   await sendMsgToBot(
-    `Rest data: pm25 ${aqiRes.data.iaqi.pm25.v}, pm10 ${aqiRes.data.iaqi.pm10.v}, forecast daily pm25 ${aqiRes.data.forecast.daily.mp25[0].avg}`,
+    `Rest data: pm25 ${aqiRes.data.iaqi.pm25.v}, pm10 ${aqiRes.data.iaqi.pm10.v}, forecast daily pm25 ${aqiRes.data.forecast.daily.pm25[0].avg}`,
     process.env.CHAT_ID
   );
 
