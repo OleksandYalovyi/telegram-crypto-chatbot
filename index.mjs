@@ -22,7 +22,8 @@ export const handler = async () => {
 
   if (aqiRes.data.aqi > 50) {
     await sendMsgToBot(
-      `Air quality index by aqicn ${aqiRes.data.aqi}
+      `It's a good day for a walk!\n
+      Air quality index by aqicn ${aqiRes.data.aqi}\n
       Rest data: pm25 ${aqiRes.data.iaqi.pm25.v}, pm10 ${aqiRes.data.iaqi.pm10.v}, forecast daily pm25 ${aqiRes.data.forecast.daily.pm25[0].avg}`,
       process.env.CHAT_ID
     );
