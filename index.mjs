@@ -14,17 +14,19 @@ export const handler = async () => {
     "https://api.waqi.info/feed/geo:50.0438719;19.9907768/?token=4c2de55087433a8c208a462a3da340e45dae14b7"
   );
 
-  console.log("status", res.status);
-  console.log("aqi", res.data.aqi);
-  console.log("idx", res.data.idx);
+  const aqiRes = res.data;
+
+  console.log("status", aqiRes.status);
+  console.log("aqi", aqiRes.data.aqi);
+  console.log("idx", aqiRes.data.idx);
 
   await sendMsgToBot(
-    `Air quality index by aqicn ${res.data.aqi}`,
+    `Air quality index by aqicn ${aqiRes.data.aqi}`,
     process.env.CHAT_ID
   );
 
   await sendMsgToBot(
-    `Rest data: pm25 ${res.data.iaqi.pm25}, pm10 ${res.data.iaqi.pm10}, forecast daily pm25 ${res.data.forecast.daily.mp25[0].avg}`,
+    `Rest data: pm25 ${aqiRes.data.iaqi.pm25}, pm10 ${aqiRes.data.iaqi.pm10}, forecast daily pm25 ${aqiRes.data.forecast.daily.mp25[0].avg}`,
     process.env.CHAT_ID
   );
 
