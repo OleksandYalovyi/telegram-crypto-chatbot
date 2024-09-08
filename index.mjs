@@ -20,11 +20,12 @@ export const handler = async () => {
   console.log("aqi", aqiRes.data.aqi);
   console.log("idx", aqiRes.data.idx);
 
-  if (aqiRes.data.aqi > 50) {
+  if (aqiRes.data.aqi <= 50 || aqiRes.data.forecast.daily.pm25[0].avg <= 50) {
     await sendMsgToBot(
       `It's a good day for a walk!\n` +
         `Air quality index by aqicn ${aqiRes.data.aqi}\n` +
-        `Rest data: pm25 ${aqiRes.data.iaqi.pm25.v}, pm10 ${aqiRes.data.iaqi.pm10.v}, forecast daily pm25 ${aqiRes.data.forecast.daily.pm25[0].avg}`,
+        `Rest data: pm25 ${aqiRes.data.iaqi.pm25.v}, pm10 ${aqiRes.data.iaqi.pm10.v}, forecast daily pm25 ${aqiRes.data.forecast.daily.pm25[0].avg}` +
+        "Index description: https://aqicn.org/scale/",
       process.env.CHAT_ID
     );
   }
